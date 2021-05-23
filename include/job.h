@@ -7,6 +7,7 @@
 
 struct __job {
   void (*func)(void* arg);
+  void* arg;
 
   struct __job* next;
   struct __job* prev;
