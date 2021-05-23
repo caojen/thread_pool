@@ -1,4 +1,8 @@
 CC = gcc
-CFLAG = -lpthread
+CFLAG = -lpthread -Iinclude
 
-all: main
+obj/job.o: src/job.c include/job.h
+	$(CC) $(CFLAG) -o $@ -c $<
+
+clean:
+	rm -rf obj/*.o
