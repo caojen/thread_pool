@@ -1,6 +1,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #include "manager.h"
 
@@ -16,11 +17,18 @@ typedef struct Config {
 void function(void* arg) {
   Config* config = (Config*) arg;
   // printf("\n======================%d start, will wait %d\n", config->id, config->time);
-  sleep(config->time);
-  // printf("\n======================%d => %d\n", config->id, config->display);
+  // sleep(config->time); // should not use sleep. sleep will stop the whole process.
+  int begin = 100;
+  int end = 10000 + rand();
+  int sum = 1;
+  for(int i = begin; i <= end; i++) {
+    sum += begin * end;
+  }
+  printf("\n%d => %d\n", config->id, config->display);
 }
 
 int main() {
+  srand(time(NULL));
   // create pool:
   Pool* pool = pool_create(POOL_NUM);
   

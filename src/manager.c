@@ -9,17 +9,17 @@ void* pool_callback(void* arg) {
   Worker* worker = (Worker*) arg;
   while(1) {
     pthread_mutex_lock(&worker->pool->mtx);
-    // printf("\n======================worker %d get the mutex\n", worker->worker_id);
+    printf("\n======================worker %d get the mutex\n", worker->worker_id);
     while(worker->pool->jobQueue->count == 0) {
-      // printf("\n======================workder %d try cond\n", worker->worker_id);
+      printf("\n======================workder %d try cond\n", worker->worker_id);
       pthread_cond_wait(&worker->pool->cond, &worker->pool->mtx);
-      // printf("\n======================worker %d release\n", worker->worker_id);
+      printf("\n======================worker %d release\n", worker->worker_id);
     }
     
     // get a job from queue:
     Job* job = job_queue_pop(worker->pool->jobQueue);
-    // printf("\n======================worker %d fetch job\n", worker->worker_id);
-    // printf("\n======================job queue remain items count = %d\n", worker->pool->jobQueue->count);
+    printf("\n======================worker %d fetch job\n", worker->worker_id);
+    printf("\n======================job queue remain items count = %d\n", worker->pool->jobQueue->count);
     pthread_mutex_unlock(&worker->pool->mtx);
     // printf("\n======================worker %d unlock mutex\n", worker->worker_id);
 
@@ -85,9 +85,6 @@ pool_destory(Pool* pool) {
 int
 pool_push_job(Pool* pool, Job* job) {
   job_queue_add(pool->jobQueue, job);
-  if(pool->jobQueue->count <= 1) {
-    // printf("\n===signal\n");
-    pthread_cond_signal(&pool->cond);
-  }
+  pthread_cond_signal(&pool->cond);
   return 0;
 }
