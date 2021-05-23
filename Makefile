@@ -1,5 +1,5 @@
 CC = gcc
-CFLAG = -lpthread -Iinclude
+CFLAG = -lpthread -Iinclude -g
 
 all: main
 
@@ -16,7 +16,7 @@ obj/main.o: src/main.c
 	$(CC) $(CFLAG) -o $@ -c $<
 
 main: obj/job.o obj/manager.o obj/worker.o obj/main.o
-	$(CC) $^ -o $@
+	$(CC) $(CFLAG) $^ -o $@
 
 clean:
-	rm -rf obj/*.o
+	rm -rf obj/*.o main

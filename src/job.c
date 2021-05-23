@@ -40,13 +40,18 @@ job_queue_pop(JobQueue* jobQueue) {
 
   if(jobQueue->count == 0) {
     return NULL;
+  } else if(jobQueue->count == 1) {
+    jobQueue->count = 0;
+    Job* ret = jobQueue->head;
+    jobQueue->head = jobQueue->tail = NULL;
+    return ret;
+  } else {
+    Job* ret = jobQueue->tail;
+    Job* prev = ret->prev;
+    ret->prev = NULL;
+    if(prev != NULL) {
+      prev->next = NULL;
+    }
+    return ret;
   }
-
-  Job* ret = jobQueue->tail;
-  Job* prev = ret->prev;
-  ret->prev = NULL;
-  if(prev != NULL) {
-    prev->next = NULL;
-  }
-  return ret;
 }
