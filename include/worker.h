@@ -5,6 +5,9 @@
 
 #include "manager.h"
 
+struct __manager;
+typedef struct __manager Pool;
+
 struct __worker {
   int worker_id;
   pthread_t pthread_id;

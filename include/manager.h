@@ -6,6 +6,9 @@
 #include "job.h"
 #include "worker.h"
 
+struct __worker_queue;
+typedef struct __worker_queue WorkerQueue;
+
 struct __manager {
   JobQueue* jobQueue;
   WorkerQueue* workerQueue;
